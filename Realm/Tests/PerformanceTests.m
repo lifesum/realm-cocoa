@@ -177,6 +177,18 @@ static RLMRealm *s_smallRealm, *s_mediumRealm, *s_largeRealm;
     }];
 }
 
+- (void)testEnumerateAndAccessAllTV {
+    RLMRealm *realm = [self getStringObjects:50];
+
+    [self measureBlock:^{
+        [realm beginWriteTransaction];
+        for (StringObject *so in [StringObject allObjectsInRealm:realm]) {
+            (void)[so stringCol];
+        }
+        [realm cancelWriteTransaction];
+    }];
+}
+
 - (void)testEnumerateAndAccessAllSlow {
     RLMRealm *realm = [self getStringObjects:5];
 
